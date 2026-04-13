@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Distributed Systems Quiz</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -30,7 +31,6 @@ let shuffled = [];
 let wrong = [];
 let answered = false;
 
-// 1. MENU LOGIC: Let the user choose a chapter
 function showMenu() {
     document.getElementById("question").innerText = "Select a Chapter to Practice:";
     document.getElementById("progress").innerText = "";
@@ -42,10 +42,8 @@ function showMenu() {
     let ansDiv = document.getElementById("answers");
     ansDiv.innerHTML = "";
 
-    // Create "All Chapters" button
     createMenuBtn("All Chapters", () => startQuiz("all"));
 
-    // Dynamically find unique chapters from your questions.js
     const uniqueChapters = [];
     const map = new Map();
     for (const item of questions) {
@@ -58,7 +56,6 @@ function showMenu() {
         }
     }
     
-    // Sort chapters numerically and create buttons
     uniqueChapters.sort((a, b) => a.num - b.num).forEach(ch => {
         createMenuBtn(`Chapter ${ch.num}: ${ch.title}`, () => startQuiz(ch.num));
     });
@@ -67,13 +64,11 @@ function showMenu() {
 function createMenuBtn(text, clickHandler) {
     let b = document.createElement("button");
     b.innerText = text;
-    b.className = "answer-btn"; 
-    b.style.gridColumn = "span 2"; // Make chapter selection wide
+    b.className = "answer-btn menu-btn"; 
     b.onclick = clickHandler;
     document.getElementById("answers").appendChild(b);
 }
 
-// 2. START LOGIC: Filter based on selection
 function startQuiz(selection) {
     if (selection === "all") {
         shuffled = [...questions];
@@ -136,7 +131,6 @@ function handleAnswer(userPick, btnElement){
     let isCorrect = (userPick === q.answer);
     
     const allButtons = document.querySelectorAll('.answer-btn');
-    allButtons.forEach(btn => btn.disabled = true);
 
     if(isCorrect){
         score++;
@@ -146,8 +140,19 @@ function handleAnswer(userPick, btnElement){
         btnElement.classList.add("wrong");
         document.getElementById("feedback").innerText = "❌ Incorrect";
         wrong.push(q);
+
+        // Highlight the correct answer with an outline
+        allButtons.forEach((btn, index) => {
+            if(q.type === "tf") {
+                let btnVal = (btn.innerText === "True");
+                if(btnVal === q.answer) btn.classList.add("correct-outline");
+            } else {
+                if(index === q.answer) btn.classList.add("correct-outline");
+            }
+        });
     }
     
+    allButtons.forEach(btn => btn.disabled = true);
     document.getElementById("nextBtn").style.display = "inline-block";
     scoreDisplay();
 }
@@ -167,11 +172,9 @@ function endGame(){
     document.getElementById("nextBtn").style.display = "none";
     document.getElementById("feedback").innerText = `Final Result: ${score} / ${shuffled.length}`;
     
-    // Allow user to return to menu
     let menuBtn = document.createElement("button");
     menuBtn.innerText = "Back to Chapter Selection";
-    menuBtn.className = "answer-btn";
-    menuBtn.style.gridColumn = "span 2";
+    menuBtn.className = "answer-btn menu-btn";
     menuBtn.style.marginTop = "20px";
     menuBtn.onclick = showMenu;
     document.getElementById("answers").appendChild(menuBtn);
@@ -190,7 +193,6 @@ function startReview(){
     loadQuestion();
 }
 
-// Kick off the application with the menu
 showMenu();
 </script>
 </body>
