@@ -1,6 +1,6 @@
 # COSC-4437 Distributed Systems Exam Prep Game
 
-A gamified study tool designed for students at Algoma University to master the core concepts of Distributed Systems. This project utilizes a comprehensive bank of 7,000+ questions structured to align with standard academic curricula.
+A gamified study tool designed for students at Algoma University to master the core concepts of Distributed Systems. This project utilizes a comprehensive bank of 800+ questions structured to align with standard academic curricula.
 
 ## 🎮 Project Overview
 This tool converts complex distributed systems theory—ranging from virtualization to consistency models—into an interactive experience to help students prepare for finals.
